@@ -13,7 +13,7 @@ run:
 install:
 	virtualenv -p python3 $(VENV)
 	$(PIP) install -r requirements.txt
-	$(PIP) install -r dev-requirements.txt
+	$(PIP) install -r requirements-dev.txt
 
 clean:
 	rm -rf $(VENV)
