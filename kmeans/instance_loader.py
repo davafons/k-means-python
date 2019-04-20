@@ -1,11 +1,12 @@
 import re
 
-import pandas as pd
+import numpy as np
+from nptyping import Array
 
 
 class InstanceLoader:
     @staticmethod
-    def load_txt(filepath: str) -> pd.DataFrame:
+    def load_txt(filepath: str) -> Array:
         with open(filepath, "r") as input_file:
             expected_rows = int(input_file.readline())
             expected_cols = int(input_file.readline())
@@ -18,18 +19,10 @@ class InstanceLoader:
                     for value in re.split(r"\s+", row.strip())
                 ]
 
-                InstanceLoader.__assert_len(values, expected_cols)
-
                 data.append(values)
 
-            InstanceLoader.__assert_len(data, expected_rows)
+            np_data = np.array(data)
 
-            return pd.DataFrame(data)
+            assert np_data.size == expected_cols * expected_rows
 
-    @staticmethod
-    def __assert_len(array, expected_len: int):
-        if len(array) != expected_len:
-            raise SyntaxError(
-                f"{__name__}: Expected {expected_len} "
-                f"values on {array[:5]}... Found {len(array)}"
-            )
+            return np_data

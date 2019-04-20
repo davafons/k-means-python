@@ -1,18 +1,23 @@
 import matplotlib.pyplot as plt
-from mpl_toolkits.mplot3d import Axes3D
+from nptyping import Array
+
 
 from instance_loader import InstanceLoader
+from kmeans import KMeans
+# from sklearn.cluster import KMeans
 
 
 def main():
-    df = InstanceLoader.load_txt("res/prob1.txt")
-    print(f"DataFrame loaded:\n{df.head()}")
+    X: Array = InstanceLoader.load_txt("res/prob3.txt")
+    # print(f"Instance loaded:\n{X}")
 
-    # Test: Plot the dataframe
-    fig = plt.figure()
-    ax = fig.add_subplot(111, projection="3d")
-    ax.scatter(df[0], df[1], df[2], marker="s")
+    kmeans = KMeans(n_clusters=2)
+    kmeans.fit(X)
 
+    print(kmeans.labels_)
+    print(kmeans.cluster_centers_)
+
+    plt.scatter(X[:, 0], X[:, 1], c=kmeans.labels_)
     plt.show()
 
 
