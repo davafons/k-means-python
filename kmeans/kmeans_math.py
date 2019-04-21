@@ -9,7 +9,7 @@ class KMeansMath:
     @staticmethod
     def kmeans_plusplus(X, n_clusters):
         # Choose 1 random centroid first
-        index = np.random.randint(0, X.shape[0], size=1)[0]
+        index = np.random.RandomState().randint(0, X.shape[0], size=1)[0]
         centroids = np.array([X[index]])
 
         # Remove the picked centroid for avoiding repetitions
@@ -22,7 +22,7 @@ class KMeansMath:
             p = KMeansMath.sq_distance_prob_array(X, centroids[i - 1])
 
             # Pick the next centroid and remove
-            index = np.random.choice(X.shape[0], 1, p=p)[0]
+            index = np.random.RandomState().choice(X.shape[0], 1, p=p)[0]
             centroids = np.append(centroids, [X[index]], axis=0)
             X = np.delete(X, index, axis=0)
 
@@ -31,7 +31,12 @@ class KMeansMath:
     @staticmethod
     def choose_points(X, n_points):
         return np.array(
-            [X[i] for i in np.random.choice(X.shape[0], n_points, replace=False)]
+            [
+                X[i]
+                for i in np.random.RandomState().choice(
+                    X.shape[0], n_points, replace=False
+                )
+            ]
         )
 
     @staticmethod

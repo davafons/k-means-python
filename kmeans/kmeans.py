@@ -28,15 +28,17 @@ class KMeans:
     def fit(self, X):
         self.cluster_centers_, self.labels_, self.n_iter_ = self.engine.fit(X)
 
+    def fit_full_output(self, X):
+        return self.__full_output(X, self.engine.fit_gen)
+
     def run_full_output(self, X):
+        return self.__full_output(X, self.engine.run_gen)
+
+    def __full_output(self, X, gen_method):
         results = []
 
         start = time.clock()
-        for (
-            self.cluster_centers_,
-            self.labels_,
-            self.n_iter_,
-        ) in self.engine.run_generator(X):
+        for (self.cluster_centers_, self.labels_, self.n_iter_) in gen_method(X):
             end = time.clock() - start
             sse = KMeansMath.sse(X, self.cluster_centers_, self.labels_)
 

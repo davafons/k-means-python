@@ -1,3 +1,4 @@
+import os
 import re
 
 import numpy as np
@@ -12,6 +13,9 @@ class InstanceLoader:
         elif name.lower() == "blobs":
             X, _ = datasets.make_blobs()
             return X
+
+        elif os.path.splitext(name)[-1].lower() == ".csv":
+            return InstanceLoader.load_csv(name)
 
         return InstanceLoader.load_txt(name)
 
@@ -36,3 +40,7 @@ class InstanceLoader:
             assert np_data.size == expected_cols * expected_rows
 
             return np_data
+
+    @staticmethod
+    def load_csv(filepath: str):
+        return np.genfromtxt(filepath, delimiter=";", skip_header=1)

@@ -28,25 +28,28 @@ class KMeansEngine:
         i = None
         sse = math.inf
 
+        for next_centroids, next_labels, next_i in self.fit_gen(X):
+            next_sse = KMeansMath.sse(X, next_centroids, next_labels)
+
+            if next_sse < sse:
+                centroids, labels, i = next_centroids, next_labels, next_i
+                sse = next_sse
+
+        return centroids, labels, i
+
+    def fit_gen(self, X):
         with futures.ProcessPoolExecutor(self.n_jobs_) as executor:
             result_futures = [
                 executor.submit(self.run, X) for _ in range(0, self.n_init_)
             ]
 
             for future in futures.as_completed(result_futures):
-                new_centroids, new_labels, new_i = future.result()
-                new_sse = KMeansMath.sse(X, new_centroids, new_labels)
-
-                if new_sse < sse:
-                    centroids, labels, i = new_centroids, new_labels, new_i
-                    sse = new_sse
-
-        return centroids, labels, i
+                yield future.result()
 
     def run(self, X):
-        return [_ for _ in self.run_generator(X)][-1]
+        return [_ for _ in self.run_gen(X)][-1]
 
-    def run_generator(self, X):
+    def run_gen(self, X):
         # Initialize empty centroids and labels
         centroids = self.calc_initial_centroids(X, self.n_clusters_)
         labels = np.empty(shape=(X.shape[0],), dtype=int)
