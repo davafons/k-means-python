@@ -1,3 +1,5 @@
+import math
+
 import numpy as np
 
 from kmeans_math import KMeansMath
@@ -16,6 +18,22 @@ class KMeansEngine:
         # Default method to find distance is euclidean distance
         self.calc_distance = KMeansMath.euclidean_distance
 
+    def fit(self, X):
+        centroids = None
+        labels = None
+        i = None
+        sse = math.inf
+
+        for _ in range(0, self.n_init_):
+            new_centroids, new_labels, new_i = self.run(X)
+            new_sse = self.calculate_sse(X, new_centroids, new_labels)
+
+            if new_sse < sse:
+                centroids, labels, i = new_centroids, new_labels, new_i
+                sse = new_sse
+
+        return centroids, labels, i
+
     def run(self, X):
         """
         Yield the centroids, labels and nº iteration
@@ -24,16 +42,16 @@ class KMeansEngine:
         centroids = self.calc_initial_centroids(X, self.n_clusters_)
         labels = np.empty(shape=(X.shape[0],), dtype=int)
 
-        for i in range(1, self.max_iter_):
+        for iteration in range(1, self.max_iter_):
             # Execute the next iteration
             new_centroids, new_labels = self.__iter(X, centroids, labels)
-
-            yield (new_centroids, new_labels, i)
 
             if self.__is_optimal(centroids, new_centroids):
                 break
             else:
                 centroids, labels = new_centroids, new_labels
+
+        return centroids, labels, iteration
 
     def __iter(self, X, centroids, labels):
         for i, point in enumerate(X):
@@ -48,6 +66,14 @@ class KMeansEngine:
         centroids = KMeansMath.recalculate_centroids(X, centroids, labels)
 
         return centroids, labels
+
+    def calculate_sse(self, X, centroids, labels):
+        sse = 0.0
+        for i, point in enumerate(X):
+            sse += self.calc_distance(point, centroids[labels[i]]) ** 2
+
+        print(sse)
+        return sse
 
     def __is_optimal(self, old_centroids, new_centroids):
         for i in range(0, old_centroids.shape[0]):

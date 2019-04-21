@@ -16,12 +16,7 @@ class KMeans:
         self.n_iter_ = None
 
     def fit(self, X):
-        for self.cluster_centers_, self.labels_, self.n_iter_ in self.engine.run(X):
-            continue
-
-    def fit_gen(self, X):
-        for self.cluster_centers_, self.labels_, self.n_iter_ in self.engine.run(X):
-            yield (self.cluster_centers_, self.labels_, self.n_iter_)
+        self.cluster_centers_, self.labels_, self.n_iter_ = self.engine.fit(X)
 
     def use_euclidean_distance(self):
         self.engine.calc_distance = KMeansMath.euclidean_distance
