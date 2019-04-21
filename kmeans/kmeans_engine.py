@@ -1,4 +1,5 @@
 import math
+from concurrent import futures
 
 import numpy as np
 
@@ -6,11 +7,14 @@ from kmeans_math import KMeansMath
 
 
 class KMeansEngine:
-    def __init__(self, n_clusters: int, n_init: int, max_iter: int, tol: float):
+    def __init__(
+        self, n_clusters: int, n_init: int, max_iter: int, tol: float, n_jobs: int
+    ):
         self.n_clusters_: int = n_clusters
         self.n_init_: int = n_init
         self.max_iter_: int = max_iter
         self.tol_: float = tol
+        self.n_jobs_: int = n_jobs
 
         # Default method to set initial centroids
         self.calc_initial_centroids = KMeansMath.random_centroids
@@ -24,20 +28,22 @@ class KMeansEngine:
         i = None
         sse = math.inf
 
-        for _ in range(0, self.n_init_):
-            new_centroids, new_labels, new_i = self.run(X)
-            new_sse = self.calculate_sse(X, new_centroids, new_labels)
+        with futures.ProcessPoolExecutor(self.n_jobs_) as executor:
+            result_futures = [
+                executor.submit(self.run, X) for _ in range(0, self.n_init_)
+            ]
 
-            if new_sse < sse:
-                centroids, labels, i = new_centroids, new_labels, new_i
-                sse = new_sse
+            for future in futures.as_completed(result_futures):
+                new_centroids, new_labels, new_i = future.result()
+                new_sse = self.calculate_sse(X, new_centroids, new_labels)
+
+                if new_sse < sse:
+                    centroids, labels, i = new_centroids, new_labels, new_i
+                    sse = new_sse
 
         return centroids, labels, i
 
     def run(self, X):
-        """
-        Yield the centroids, labels and nº iteration
-        """
         # Initialize empty centroids and labels
         centroids = self.calc_initial_centroids(X, self.n_clusters_)
         labels = np.empty(shape=(X.shape[0],), dtype=int)

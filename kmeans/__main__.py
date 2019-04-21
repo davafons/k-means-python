@@ -12,12 +12,12 @@ def main():
     # print(f"Instance loaded:\n{X}")
 
     # -- Print result for my KMeans implementation
-    kmeans = KMeans(n_clusters=2)
+    kmeans = KMeans(n_clusters=3, n_init=100)
     print("Personal KMeans implementation:")
     output_kmeans(kmeans, X)
 
     # -- Print result for sklearn KMeans implementation
-    skmeans = KMeansSK(n_clusters=2)
+    skmeans = KMeansSK(n_clusters=3, n_init=100)
     print("SKLearn KMeans implementation:")
     output_kmeans(skmeans, X)
 
