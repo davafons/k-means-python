@@ -24,12 +24,16 @@ class KMeansEngine:
         centroids = self.calc_initial_centroids(X, self.n_clusters_)
         labels = np.empty(shape=(X.shape[0],), dtype=int)
 
-        for i in range(0, self.max_iter_):
+        for i in range(1, self.max_iter_):
             # Execute the next iteration
-            centroids, labels = self.__iter(X, centroids, labels)
+            new_centroids, new_labels = self.__iter(X, centroids, labels)
 
-            # Yield the results
-            yield (centroids, labels, i)
+            yield (new_centroids, new_labels, i)
+
+            if self.__is_optimal(centroids, new_centroids):
+                break
+            else:
+                centroids, labels = new_centroids, new_labels
 
     def __iter(self, X, centroids, labels):
         for i, point in enumerate(X):
@@ -44,3 +48,10 @@ class KMeansEngine:
         centroids = KMeansMath.recalculate_centroids(X, centroids, labels)
 
         return centroids, labels
+
+    def __is_optimal(self, old_centroids, new_centroids):
+        for i in range(0, old_centroids.shape[0]):
+            if np.sum(np.absolute(old_centroids[i] - new_centroids[i])) > self.tol_:
+                return False
+
+        return True

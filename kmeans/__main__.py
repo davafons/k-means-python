@@ -12,6 +12,7 @@ def main():
 
     kmeans = KMeans(n_clusters=2)
     kmeans.fit(X)
+    print(kmeans.n_iter_)
 
     plt.scatter(
         kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], s=130, marker="x"
