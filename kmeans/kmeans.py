@@ -42,16 +42,6 @@ class KMeans:
 
         self.cluster_centers_ = self.__recalculate_centroids(X)
 
-    def __initial_centroids(self, X: Array):
-        return np.array(
-            [
-                X[i]
-                for i in np.random.choice(
-                    X.shape[0] - 1, self.n_clusters_, replace=False
-                )
-            ]
-        )
-
     def __recalculate_centroids(self, X: Array):
         new_centroids = np.zeros(self.cluster_centers_.shape)
 
