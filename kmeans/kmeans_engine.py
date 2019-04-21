@@ -12,10 +12,10 @@ class KMeansEngine:
         self.max_iter_: int = max_iter
         self.tol_: float = tol
 
-        # Default method to find initial centroids is random choice
+        # Default method to set initial centroids
         self.calc_initial_centroids = KMeansMath.random_centroids
 
-        # Default method to find distance is euclidean distance
+        # Default method to find distance
         self.calc_distance = KMeansMath.euclidean_distance
 
     def fit(self, X):
@@ -72,7 +72,6 @@ class KMeansEngine:
         for i, point in enumerate(X):
             sse += self.calc_distance(point, centroids[labels[i]]) ** 2
 
-        print(sse)
         return sse
 
     def __is_optimal(self, old_centroids, new_centroids):
