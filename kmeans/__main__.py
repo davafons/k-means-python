@@ -1,6 +1,7 @@
 import argparse
 import time
 
+import matplotlib.animation as animation
 import matplotlib.pyplot as plt
 from mpl_toolkits.mplot3d import Axes3D
 from sklearn.cluster import KMeans as KMeansSK
@@ -28,8 +29,9 @@ def kmeans_run_verbose(X):
     headers = ["Centroids", "Labels", "Iteration", "SSE", "CPU"]
     print(tabulate(results, headers=headers))
 
-    for row in results:
-        plot_kmeans(X, row[0], row[1], f"Iteration {row[2]}")
+    # for row in results:
+    #     plot_kmeans(X, row[0], row[1], f"Iteration {row[2]}")
+    kmeans_animation(X, results)
 
     plt.show()
 
@@ -41,6 +43,7 @@ def compare_kmeans(X):
     print("Personal KMeans implementation:")
     output_kmeans(kmeans, X)
     plot_kmeans(
+        plt.figure(),
         X,
         kmeans.cluster_centers_,
         kmeans.labels_,
@@ -53,6 +56,7 @@ def compare_kmeans(X):
     print("SKLearn KMeans implementation:")
     output_kmeans(skmeans, X)
     plot_kmeans(
+        plt.figure(),
         X,
         skmeans.cluster_centers_,
         skmeans.labels_,
@@ -77,8 +81,7 @@ def output_kmeans(kmeans, X):
     print("\n")
 
 
-def plot_kmeans(X, centroids, labels, title):
-    fig = plt.figure()
+def plot_kmeans(fig, X, centroids, labels, title):
     fig.suptitle(title)
 
     dimension = X.shape[1]
@@ -91,6 +94,18 @@ def plot_kmeans(X, centroids, labels, title):
         ax = fig.add_subplot(111, projection=Axes3D.name)
         ax.scatter(X[:, 0], X[:, 1], X[:, 2], c=labels)
         ax.scatter(centroids[:, 0], centroids[:, 1], centroids[:, 2], s=130, marker="x")
+
+
+def kmeans_animation(X, data):
+    fig = plt.figure()
+
+    def update_plot(i):
+        fig.clear()
+        plot_kmeans(fig, X, data[i][0], data[i][1], f"Iteration {i}")
+
+    _ = animation.FuncAnimation(fig, update_plot, frames=len(data), repeat=True)
+
+    plt.show()
 
 
 if __name__ == "__main__":
