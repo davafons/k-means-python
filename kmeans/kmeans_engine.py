@@ -16,11 +16,11 @@ class KMeansEngine:
         self.tol_: float = tol
         self.n_jobs_: int = n_jobs
 
-        # Default method to set initial centroids
-        self.calc_initial_centroids = KMeansMath.random_centroids
-
-        # Default method to find distance
+        # Default method to find the distance between two points
         self.calc_distance = KMeansMath.euclidean_distance
+
+        # Default method to set the initial centroids
+        self.calc_initial_centroids = KMeansMath.kmeans_plusplus
 
     def fit(self, X):
         centroids = None
@@ -35,7 +35,7 @@ class KMeansEngine:
 
             for future in futures.as_completed(result_futures):
                 new_centroids, new_labels, new_i = future.result()
-                new_sse = self.calculate_sse(X, new_centroids, new_labels)
+                new_sse = KMeansMath.sse(X, new_centroids, new_labels)
 
                 if new_sse < sse:
                     centroids, labels, i = new_centroids, new_labels, new_i
@@ -72,13 +72,6 @@ class KMeansEngine:
         centroids = KMeansMath.recalculate_centroids(X, centroids, labels)
 
         return centroids, labels
-
-    def calculate_sse(self, X, centroids, labels):
-        sse = 0.0
-        for i, point in enumerate(X):
-            sse += self.calc_distance(point, centroids[labels[i]]) ** 2
-
-        return sse
 
     def __is_optimal(self, old_centroids, new_centroids):
         for i in range(0, old_centroids.shape[0]):

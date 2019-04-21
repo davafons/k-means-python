@@ -24,3 +24,6 @@ class KMeans:
 
     def use_random_centroids(self):
         self.engine.calc_initial_centroids = KMeansMath.random_centroids
+
+    def use_kmeans_plusplus(self):
+        self.engine.calc_initial_centroids = KMeansMath.kmeans_plusplus

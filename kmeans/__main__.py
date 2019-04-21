@@ -15,6 +15,7 @@ def main(args):
 
     # -- Print result for my KMeans implementation
     kmeans = KMeans(n_clusters=3, n_init=100, n_jobs=8)
+
     print("Personal KMeans implementation:")
     output_kmeans(kmeans, X)
     plot_kmeans(
