@@ -1,9 +1,20 @@
 import re
 
 import numpy as np
+from sklearn import datasets
 
 
 class InstanceLoader:
+    @staticmethod
+    def load_dataset(name: str):
+        if name.lower() == "iris":
+            return datasets.load_iris().data
+        elif name.lower() == "blobs":
+            X, _ = datasets.make_blobs()
+            return X
+
+        return InstanceLoader.load_txt(name)
+
     @staticmethod
     def load_txt(filepath: str):
         with open(filepath, "r") as input_file:

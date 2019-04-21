@@ -5,11 +5,18 @@ BIN = $(VENV)/bin
 PY := $(VENV)/bin/python
 PIP := $(VENV)/bin/pip
 
+MAIN := $(PROJECT)/__main__.py
+
 
 .PHONY: run install clean freeze
 
+DATASET := iris
+
 run:
-	$(PY) $(PROJECT)/__main__.py
+	$(PY) $(MAIN) $(DATASET)
+
+help:
+	$(PY) $(MAIN) -h
 
 install:
 	virtualenv -p python3 $(VENV)
