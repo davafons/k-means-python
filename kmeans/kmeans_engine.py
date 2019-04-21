@@ -44,20 +44,23 @@ class KMeansEngine:
         return centroids, labels, i
 
     def run(self, X):
+        return [_ for _ in self.run_generator(X)][-1]
+
+    def run_generator(self, X):
         # Initialize empty centroids and labels
         centroids = self.calc_initial_centroids(X, self.n_clusters_)
         labels = np.empty(shape=(X.shape[0],), dtype=int)
 
+        yield centroids, np.zeros(shape=(X.shape[0],), dtype=int), 0
+
         for iteration in range(1, self.max_iter_):
-            # Execute the next iteration
             new_centroids, new_labels = self.__iter(X, centroids, labels)
+            yield new_centroids, new_labels, iteration
 
             if self.__is_optimal(centroids, new_centroids):
                 break
             else:
                 centroids, labels = new_centroids, new_labels
-
-        return centroids, labels, iteration
 
     def __iter(self, X, centroids, labels):
         for i, point in enumerate(X):

@@ -1,3 +1,5 @@
+import time
+
 from kmeans_engine import KMeansEngine
 from kmeans_math import KMeansMath
 
@@ -18,6 +20,25 @@ class KMeans:
 
     def fit(self, X):
         self.cluster_centers_, self.labels_, self.n_iter_ = self.engine.fit(X)
+
+    def run_full_output(self, X):
+        results = []
+
+        start = time.clock()
+        for (
+            self.cluster_centers_,
+            self.labels_,
+            self.n_iter_,
+        ) in self.engine.run_generator(X):
+            end = time.clock() - start
+            sse = KMeansMath.sse(X, self.cluster_centers_, self.labels_)
+
+            row = (self.cluster_centers_, self.labels_, self.n_iter_, sse, end)
+            results.append(row)
+
+            start = time.clock()
+
+        return results
 
     def use_euclidean_distance(self):
         self.engine.calc_distance = KMeansMath.euclidean_distance
