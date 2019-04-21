@@ -1,5 +1,4 @@
 import matplotlib.pyplot as plt
-from nptyping import Array
 
 from instance_loader import InstanceLoader
 from kmeans import KMeans
@@ -8,7 +7,7 @@ from kmeans import KMeans
 
 
 def main():
-    X: Array = InstanceLoader.load_txt("res/prob3.txt")
+    X = InstanceLoader.load_txt("res/prob3.txt")
     # print(f"Instance loaded:\n{X}")
 
     kmeans = KMeans(n_clusters=2)

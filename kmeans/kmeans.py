@@ -1,5 +1,4 @@
 import numpy as np
-from nptyping import Array
 
 
 class KMeans:
@@ -18,7 +17,7 @@ class KMeans:
         self.labels_ = None
         self.n_iter_ = None
 
-    def fit(self, X: Array):
+    def fit(self, X):
         self.cluster_centers_ = self.__initial_centroids(X)
         print("Initial centroids")
         print(self.cluster_centers_)
@@ -28,7 +27,7 @@ class KMeans:
             print(self.labels_)
             self.n_iter_ = i
 
-    def __run(self, X: Array):
+    def __run(self, X):
         self.labels_ = np.empty(shape=(1, 0), dtype=int)
 
         for point in X:
@@ -42,7 +41,7 @@ class KMeans:
 
         self.cluster_centers_ = self.__recalculate_centroids(X)
 
-    def __initial_centroids(self, X: Array):
+    def __initial_centroids(self, X):
         return np.array(
             [
                 X[i]
@@ -52,7 +51,7 @@ class KMeans:
             ]
         )
 
-    def __recalculate_centroids(self, X: Array):
+    def __recalculate_centroids(self, X):
         new_centroids = np.zeros(self.cluster_centers_.shape)
 
         # Calculate the sum of the points and the repetitions of each class
@@ -69,5 +68,5 @@ class KMeans:
         return new_centroids
 
     @staticmethod
-    def __distance(A: Array, B: Array):
+    def __distance(A, B):
         return np.linalg.norm(A - B)

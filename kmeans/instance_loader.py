@@ -1,12 +1,11 @@
 import re
 
 import numpy as np
-from nptyping import Array
 
 
 class InstanceLoader:
     @staticmethod
-    def load_txt(filepath: str) -> Array:
+    def load_txt(filepath: str):
         with open(filepath, "r") as input_file:
             expected_rows = int(input_file.readline())
             expected_cols = int(input_file.readline())
