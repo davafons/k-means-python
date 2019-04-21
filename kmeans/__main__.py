@@ -12,34 +12,41 @@ from kmeans import KMeans
 
 
 def main(args):
+    # Load the dataset from the file/predefined dataset
     X = InstanceLoader.load_dataset(args.dataset)
 
+    # Create a KMeans instance using the arguments passed through the console
+    kmeans = KMeans(
+        n_clusters=args.n_clusters,
+        init=args.init,
+        n_init=args.n_init,
+        n_jobs=args.n_jobs,
+    )
+
     if args.run_verbose:
-        kmeans_run_verbose(X)
+        kmeans_run_verbose(X, kmeans)
 
     else:
-        compare_kmeans(X)
+        skmeans = KMeansSK(
+            n_clusters=args.n_clusters, n_init=args.n_init, n_jobs=args.n_jobs
+        )
+        compare_kmeans(X, kmeans, skmeans)
 
 
-def kmeans_run_verbose(X):
-    kmeans = KMeans(n_clusters=3, n_init=5, n_jobs=8)
+def kmeans_run_verbose(X, kmeans):
 
     results = kmeans.run_full_output(X)
 
     headers = ["Centroids", "Labels", "Iteration", "SSE", "CPU"]
     print(tabulate(results, headers=headers))
 
-    # for row in results:
-    #     plot_kmeans(X, row[0], row[1], f"Iteration {row[2]}")
     kmeans_animation(X, results)
 
     plt.show()
 
 
-def compare_kmeans(X):
-    # -- Print result for my KMeans implementation
-    kmeans = KMeans(n_clusters=3, n_init=100, n_jobs=8)
-
+def compare_kmeans(X, kmeans, skmeans):
+    # -- Print result for the KMeans implementation
     print("Personal KMeans implementation:")
     output_kmeans(kmeans, X)
     plot_kmeans(
@@ -51,8 +58,7 @@ def compare_kmeans(X):
         f"{kmeans.n_iter_}",
     )
 
-    # -- Print result for sklearn KMeans implementation
-    skmeans = KMeansSK(n_clusters=3, n_init=100, n_jobs=8)
+    # -- Print result for the sklearn KMeans implementation
     print("SKLearn KMeans implementation:")
     output_kmeans(skmeans, X)
     plot_kmeans(
@@ -103,7 +109,9 @@ def kmeans_animation(X, data):
         fig.clear()
         plot_kmeans(fig, X, data[i][0], data[i][1], f"Iteration {i}")
 
-    _ = animation.FuncAnimation(fig, update_plot, frames=len(data), repeat=True)
+    _ = animation.FuncAnimation(
+        fig, update_plot, interval=400, frames=len(data), repeat=True
+    )
 
     plt.show()
 
@@ -123,6 +131,27 @@ if __name__ == "__main__":
         "--run-verbose",
         help="Verbose output of only one KMeans run with the loaded dataset.",
         action="store_true",
+    )
+    parser.add_argument(
+        "--init",
+        help="(random|kpp) Method used for determine the first clusters",
+        default="k-means-++",
+        type=str,
+    )
+    parser.add_argument(
+        "--n-clusters", help="Number of clusters to find", default=3, type=int
+    )
+    parser.add_argument(
+        "--n-init",
+        help="Number of times to execute KMeans before returning a cluster",
+        default=15,
+        type=int,
+    )
+    parser.add_argument(
+        "--n-jobs",
+        help="Number of process to execute in parallel with KMeans instances",
+        default=8,
+        type=int,
     )
 
     main(parser.parse_args())

@@ -8,12 +8,19 @@ class KMeans:
     def __init__(
         self,
         n_clusters: int = 8,
+        init: str = "k-means++",
         n_init: int = 10,
         max_iter: int = 10,
         tol: float = 1e-4,
         n_jobs: int = None,
     ):
         self.engine = KMeansEngine(n_clusters, n_init, max_iter, tol, n_jobs)
+
+        if init == "random":
+            self.use_random_centroids()
+        else:
+            self.use_kmeans_plusplus()
+
         self.cluster_centers_ = None
         self.labels_ = None
         self.n_iter_ = None
