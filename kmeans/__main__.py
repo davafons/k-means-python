@@ -13,9 +13,6 @@ def main():
     kmeans = KMeans(n_clusters=2)
     kmeans.fit(X)
 
-    print(kmeans.labels_)
-    print(kmeans.cluster_centers_)
-
     plt.scatter(
         kmeans.cluster_centers_[:, 0], kmeans.cluster_centers_[:, 1], s=130, marker="x"
     )
