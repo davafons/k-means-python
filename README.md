@@ -4,7 +4,48 @@ Implementation of the __k-means__ algorithm for __clustering__ from scratch, usi
 
 The program need a dataset to be executed. Can be a `.txt` file, a `.csv` file, or some of the predefined datasets in `sklearn` (blobs | iris)
 
-## Example
+## Results of the KMeans execution for the example instances
+
+This table shows the result of executing the __KMeans implementation__ for the datasets `res/prob1.txt` and `res/prob2.txt`.
+(The column ___Iterations___ marks the number of iterations performed by the algorithm before convergence)
+
+The first table is for `res/prob1.txt` and the second one for `res/prob2.txt`
+
+| K | Iterations |   SSE   | CPU (ms) |   | K | Iterations |   SSE   | CPU (ms) |
+|:-:|:----------:|:-------:|:--------:|:-:|:-:|:----------:|:-------:|:--------:|
+| 2 |      2     | 244.593 | 0.018101 |   | 2 |      2     | 419.484 |  0.01929 |
+| 2 |      3     | 274.877 | 0.000478 |   | 2 |      4     | 432.108 | 0.000235 |
+| 2 |      3     | 260.826 |  1.1e-05 |   | 2 |      2     |  418.17 | 0.000235 |
+| 2 |      2     |  247.17 | 0.000256 |   | 2 |      5     | 446.111 | 0.000149 |
+| 2 |      3     | 274.877 |  2.5e-05 |   | 2 |      5     | 432.108 | 0.000166 |
+| 3 |      2     | 172.455 | 0.016216 |   | 3 |      2     | 331.633 | 0.016539 |
+| 3 |      2     | 194.698 |  1.2e-05 |   | 3 |      3     | 324.892 | 0.000298 |
+| 3 |      3     | 180.055 |  1.4e-05 |   | 3 |      2     | 325.172 |   1e-05  |
+| 3 |      3     | 174.349 |  0.00016 |   | 3 |      3     | 304.284 | 0.000177 |
+| 3 |      5     | 169.868 | 0.000194 |   | 3 |      4     | 314.489 | 0.000138 |
+| 4 |      2     | 96.6205 | 0.017427 |   | 4 |      2     | 281.365 | 0.017718 |
+| 4 |      2     | 96.6205 | 0.000271 |   | 4 |      2     | 300.396 |  1.8e-05 |
+| 4 |      2     | 96.6205 | 0.000422 |   | 4 |      2     |  319.85 |  2.5e-05 |
+| 4 |      2     | 143.835 |   7e-06  |   | 4 |      3     | 261.738 | 0.000237 |
+| 4 |      4     | 156.553 |   7e-06  |   | 4 |      4     | 291.523 | 0.000147 |
+| 5 |      2     | 148.996 | 0.016686 |   | 5 |      3     | 226.591 | 0.017056 |
+| 5 |      2     | 81.7125 | 0.000322 |   | 5 |      2     | 215.972 | 0.000242 |
+| 5 |      2     | 142.791 |   8e-06  |   | 5 |      2     | 195.157 |   1e-05  |
+| 5 |      3     | 81.2497 |  0.00027 |   | 5 |      3     | 246.352 |  0.00035 |
+| 5 |      3     |  86.648 |   7e-06  |   | 5 |      3     | 205.223 |   8e-06  |
+| 6 |      2     | 61.8283 |  0.01873 |   | 6 |      2     | 219.843 | 0.016992 |
+| 6 |      2     | 67.5283 |  1.9e-05 |   | 6 |      3     | 179.916 | 0.000142 |
+| 6 |      3     | 86.1903 | 0.000146 |   | 6 |      3     | 182.548 | 0.000184 |
+| 6 |      3     |  60.61  | 0.000256 |   | 6 |      3     | 232.582 | 0.000247 |
+| 6 |      4     |  71.665 |   7e-06  |   | 6 |      4     | 166.762 | 0.000325 |
+| 7 |      2     | 60.8467 | 0.017985 |   | 7 |      3     | 154.487 | 0.017263 |
+| 7 |      2     |  57.978 |   9e-06  |   | 7 |      2     |  184.35 | 0.000356 |
+| 7 |      2     |  60.37  | 0.000263 |   | 7 |      2     | 173.679 |   8e-06  |
+| 7 |      3     | 109.766 | 0.000306 |   | 7 |      3     | 158.412 | 0.000423 |
+| 7 |      3     | 55.0292 | 0.000335 |   | 7 |      2     | 133.167 |   9e-06  |
+
+
+## Examples
 
 By default, both __this k-means implementation__ and the __sklearn k-means implementation__ are executed, showing the result of each one for comparisons. Results are provided both in __text__, and __graphically__ using `matplotlib`.
 
