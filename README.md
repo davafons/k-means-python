@@ -6,7 +6,7 @@ The program need a dataset to be executed. Can be a `.txt` file, a `.csv` file, 
 
 ## Example
 
-By default, both __this k-means implementation__ and the __sklearn k-means implementation__ will be executed, showing the result of each one for comparisons. Results are provided both in __text__, and __graphically__ using `matplotlib`.
+By default, both __this k-means implementation__ and the __sklearn k-means implementation__ are executed, showing the result of each one for comparisons. Results are provided both in __text__, and __graphically__ using `matplotlib`.
 
 <img src="https://i.imgur.com/ahGg7PH.png" width="420" height="315" /> <img src="https://i.imgur.com/zIw2bxj.png" width="420" height="315" />
 
@@ -45,7 +45,7 @@ SKLearn KMeans implementation:
 
 ### Run
 
-When the `--run-verbose` parameter is passed, the result is the output of a __step by step execution of the KMeans__.
+When the `--run-verbose` parameter is passed, the result is the output of a __step by step execution of the KMeans__, until the convergence of the clusters.
 
 ![run verbose gif](https://i.imgur.com/CZjx1H4.gif)
 ```
@@ -68,7 +68,7 @@ Centroids                  Labels                             Iteration       SS
 
 ### Fit
 
-When the `--fit-verbose` parameter is passed, the result will be the output of __all the KMeans instances executed in parallel__
+When the `--fit-verbose` parameter is passed, the result will be the output of __all the KMeans instances executed in parallel__.
 
 ![fit verbose](https://i.imgur.com/RtwfTry.gif)
 
