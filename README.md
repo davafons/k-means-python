@@ -2,7 +2,7 @@
 
 Implementation of the __k-means__ algorithm for __clustering__ from scratch, using __Python 3.6__ and data science libraries (`numpy`, `matplotlib`, `sklearn`...)
 
-The program need a dataset to be executed. Can be a `.txt` file, a `.csv` file, or some of the predefined datasets in `sklearn` (blobs | iris)
+The program need a __dataset__ to be executed. Can be a `.txt` file, a `.csv` file, or some of the predefined datasets in `sklearn` (blobs | iris)
 
 ## Results of the KMeans execution for the example instances
 
