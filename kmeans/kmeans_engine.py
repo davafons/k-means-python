@@ -3,7 +3,7 @@ from concurrent import futures
 
 import numpy as np
 
-from kmeans_math import KMeansMath
+from .kmeans_math import KMeansMath
 
 
 class KMeansEngine:

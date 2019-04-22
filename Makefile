@@ -5,15 +5,13 @@ BIN = $(VENV)/bin
 PY := $(VENV)/bin/python
 PIP := $(VENV)/bin/pip
 
-MAIN := $(PROJECT)/__main__.py
 
-
-.PHONY: run install clean freeze
+.PHONY: run help install clean freeze
 
 DATASET := iris
 
 run:
-	$(PY) $(MAIN) $(DATASET)
+	$(PY) -m kmeans $(DATASET)
 
 help:
 	$(PY) $(MAIN) -h

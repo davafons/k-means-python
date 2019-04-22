@@ -7,9 +7,9 @@ from mpl_toolkits.mplot3d import Axes3D
 from sklearn.cluster import KMeans as KMeansSK
 from tabulate import tabulate
 
-from instance_loader import InstanceLoader
-from kmeans import KMeans
-from kmeans_math import KMeansMath
+from .instance_loader import InstanceLoader
+from .kmeans import KMeans
+from .kmeans_math import KMeansMath
 
 
 def main(args):

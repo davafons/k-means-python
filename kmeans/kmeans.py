@@ -1,7 +1,7 @@
 import time
 
-from kmeans_engine import KMeansEngine
-from kmeans_math import KMeansMath
+from .kmeans_engine import KMeansEngine
+from .kmeans_math import KMeansMath
 
 
 class KMeans:
