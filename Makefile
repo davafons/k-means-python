@@ -14,7 +14,7 @@ run:
 	$(PY) -m kmeans $(DATASET)
 
 help:
-	$(PY) $(MAIN) -h
+	$(PY) -m kmeans $(MAIN) -h
 
 install:
 	virtualenv -p python3 $(VENV)
