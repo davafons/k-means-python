@@ -9,6 +9,8 @@ The program need a __dataset__ to be executed. Can be a `.txt` file, a `.csv` fi
 This table shows the result of executing the __KMeans implementation__ for the datasets `res/prob1.txt` and `res/prob2.txt`.
 (The column ___Iterations___ marks the number of iterations performed by the algorithm before convergence)
 
+The results have been calculated using ___kmeans++___ for determining the initial centroids, and ___euclidean distance___ for determining the distance between points.
+
 The first table is for `res/prob1.txt` and the second one for `res/prob2.txt`
 
 | K | Iterations |   SSE   | CPU (ms) |   | K | Iterations |   SSE   | CPU (ms) |
